@@ -405,11 +405,22 @@ print(df)
 print(df.columns)
 print("\n")
 
-# List the Department that has the most faculty  
+# List all details of the Department that has the most faculty  
+
+# The following query works (in SQLite but not Oracle), but chose the other one to use GROUP BY with aggregate function MAX():
+#query = """
+#    SELECT deptNo, deptName, chairName, MAX(faculty_count) AS faculty_count
+#    FROM Department;
+#   """
+
+# Works in SQLite and Oracle Live SQL Server:
 query = """
     SELECT deptNo, deptName, chairName, MAX(faculty_count) AS faculty_count
-    FROM Department;
-    """
+    FROM Department
+    WHERE faculty_count = (SELECT MAX(faculty_count) FROM Department)
+    GROUP BY deptNo, deptName, chairName;
+   """
+ 
 cursor.execute(query)
 column_names = [row[0] for row in cursor.description]
 table_data = cursor.fetchall()
