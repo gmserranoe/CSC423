@@ -23,7 +23,7 @@ cursor = db_connect.cursor()
 query = """
     CREATE TABLE Department(
         deptNo VARCHAR(5) NOT NULL CHECK (deptNo LIKE 'D%'), 
-        deptName VARCHAR(100) CHECK (deptName LIKE 'Department%'), 
+        deptName VARCHAR(100) UNIQUE CHECK (deptName LIKE 'Department%'), 
         chairName VARCHAR(100), 
         faculty_count INT,
         PRIMARY KEY(deptNo)
